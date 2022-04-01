@@ -1,10 +1,10 @@
-package com.algaworks.algafood;
+package com.algaworks.deliveryfood;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AlgafoodApiApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {
