@@ -1,4 +1,4 @@
-package com.algaworks.deliveryfood.infrastructure;
+package com.algaworks.deliveryfood.infrastructure.repository;
 
 import com.algaworks.deliveryfood.domain.model.Restaurante;
 import com.algaworks.deliveryfood.domain.repository.RestauranteRepositoryQueries;

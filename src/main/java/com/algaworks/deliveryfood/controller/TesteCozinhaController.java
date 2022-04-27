@@ -4,6 +4,8 @@ import com.algaworks.deliveryfood.domain.model.Cozinha;
 import com.algaworks.deliveryfood.domain.model.Restaurante;
 import com.algaworks.deliveryfood.domain.repository.CozinhaRepository;
 import com.algaworks.deliveryfood.domain.repository.RestauranteRepository;
+import com.algaworks.deliveryfood.infrastructure.repository.spec.RestauranteComFreteGratisSpecification;
+import com.algaworks.deliveryfood.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,9 +75,16 @@ public class TesteCozinhaController {
 		return restauranteRepository.countByCozinhaId(cozinhaId);
 	}
 
-			@GetMapping("/restaurantes/por-nome-e-frete")
+	@GetMapping("/restaurantes/por-nome-e-frete")
 	public List<Restaurante> buscaPorNomeETaxaFrete(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal){
 		return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+	}
+	@GetMapping("/restaurantes/com-frete-gratis")
+	public List<Restaurante> buscarRestaurantesComFreteGratis(String nome){
+		var comFreteGratis = new RestauranteComFreteGratisSpecification();
+		var comNomeSemelhante = new RestauranteComNomeSemelhanteSpecification(nome);
+
+		return restauranteRepository.findAll(comNomeSemelhante);
 	}
 
 }
