@@ -4,8 +4,6 @@ import com.algaworks.deliveryfood.domain.model.Cozinha;
 import com.algaworks.deliveryfood.domain.model.Restaurante;
 import com.algaworks.deliveryfood.domain.repository.CozinhaRepository;
 import com.algaworks.deliveryfood.domain.repository.RestauranteRepository;
-import com.algaworks.deliveryfood.infrastructure.repository.spec.RestauranteComFreteGratisSpecification;
-import com.algaworks.deliveryfood.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
+import static com.algaworks.deliveryfood.infrastructure.repository.spec.RestauranteSpecification.comFreteGratis;
+import static com.algaworks.deliveryfood.infrastructure.repository.spec.RestauranteSpecification.comNomeSemelhante;
 
 @RestController
 @RequestMapping("/teste") // (values = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,10 +82,9 @@ public class TesteCozinhaController {
 	}
 	@GetMapping("/restaurantes/com-frete-gratis")
 	public List<Restaurante> buscarRestaurantesComFreteGratis(String nome){
-		var comFreteGratis = new RestauranteComFreteGratisSpecification();
-		var comNomeSemelhante = new RestauranteComNomeSemelhanteSpecification(nome);
 
-		return restauranteRepository.findAll(comNomeSemelhante);
+		return restauranteRepository.findAll(comFreteGratis()
+				.and(comNomeSemelhante(nome)));
 	}
 
 }
