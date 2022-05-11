@@ -3,6 +3,7 @@ package com.algaworks.deliveryfood.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.deliveryfood.domain.exception.EntidadeEmUsoException;
