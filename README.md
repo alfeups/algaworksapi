@@ -3,13 +3,15 @@
 | This repository was created to follow-up progress of ESR AlgaWorks course. |
 |----------------------------------------------------------------------------|
 
-
+- [x] Introdução
+- [x] Spring e Injeção de Dependências
+- [x] Introdução ao JPA e Hibernate
 - [x] REST com Spring
 - [x] Super poderes do Spring Data JPA
 - [x] Explorando mais do JPA e Hibernate
-- [x] Pool de conexões e Flyway
-- [x] Tratamento e modelagem de erros da API
-- [x] Validações com Bean Validation
+- [ ] Pool de conexões e Flyway
+- [ ] Tratamento e modelagem de erros da API
+- [ ] Validações com Bean Validation
 - [ ] Testes de integração
 - [ ] Boas práticas e técnicas para APIs
 - [ ] Modelagem avançada e implementação da API
