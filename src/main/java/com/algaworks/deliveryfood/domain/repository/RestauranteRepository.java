@@ -1,7 +1,6 @@
 package com.algaworks.deliveryfood.domain.repository;
 
 import com.algaworks.deliveryfood.domain.model.Restaurante;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Repository
 public interface RestauranteRepository extends CustomJpaRepository<Restaurante, Long>
@@ -29,6 +29,7 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 
 	int countByCozinhaId(Long cozinhaId);
 
+	@Query("from Restaurante r join r.cozinha join fetch r.formaPagamento")
 	List<Restaurante> findAll();
 
 }
