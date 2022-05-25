@@ -1,7 +1,7 @@
 ## AlgaWorks Spring Rest Specialist course.
 
-| This repository was created to follow-up progress of ESR AlgaWorks course. |
-|----------------------------------------------------------------------------|
+| This repository was created to follow up on the progress of ESR AlgaWorks course. |
+|-----------------------------------------------------------------------------------|
 
 - [x] Introdução
 - [x] Spring e Injeção de Dependências
