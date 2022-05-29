@@ -32,7 +32,9 @@
 ## Recursos utilizados so far
 <li><a href="https://intellij-support.jetbrains.com/hc/en-us">IntelliJ</a> - IDE
 <li><a href="https://spring.io/projects/spring-boot">Spring Boot</a>
+<li><a href="https://docs.oracle.com/html/E13946_04/ejb3_langref.html">JPQL</a> - Queries
 <li><a href="https://mapstruct.org/">MapStruct</a> - Java DTOs mapping
+<li><a href="https://hibernate.org/">Hibernate</a> - Framework - ORM mapping
 <li><a href="https://spring.io/projects/spring-data-jpa">Spring Data JPA</a> - Queries management 
 <li><a href="https://reflectoring.io/spring-data-specifications/">Spring Data Specifications</a> - Queries management
 <li><a href="https://www.postman.com/">Postman</a> - Support to documentation, executing and requestings.
