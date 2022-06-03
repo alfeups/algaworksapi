@@ -9,7 +9,7 @@
 - [x] REST com Spring
 - [x] Super poderes do Spring Data JPA
 - [x] Explorando mais do JPA e Hibernate
-- [ ] Pool de conexões e Flyway
+- [x] Pool de conexões e Flyway
 - [ ] Tratamento e modelagem de erros da API
 - [ ] Validações com Bean Validation
 - [ ] Testes de integração
