@@ -1,18 +1,6 @@
 package com.algaworks.deliveryfood.controller;
 
-import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.deliveryfood.domain.model.Cozinha;
-import com.algaworks.deliveryfood.domain.model.Estado;
-import com.algaworks.deliveryfood.domain.repository.EstadoRepository;
-import com.algaworks.deliveryfood.domain.service.CadastroEstadoUseCase;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/estados")

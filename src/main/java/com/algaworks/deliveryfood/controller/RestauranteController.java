@@ -1,15 +1,13 @@
 package com.algaworks.deliveryfood.controller;
 
-import com.algaworks.deliveryfood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.model.Restaurante;
 import com.algaworks.deliveryfood.domain.repository.RestauranteRepository;
-import com.algaworks.deliveryfood.domain.service.CadastroRestauranteUseCase;
+import com.algaworks.deliveryfood.domain.usecase.CadastroRestauranteUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;

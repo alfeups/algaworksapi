@@ -4,13 +4,13 @@ import com.algaworks.deliveryfood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.model.Cozinha;
 import com.algaworks.deliveryfood.domain.repository.CozinhaRepository;
-import com.algaworks.deliveryfood.domain.service.CadastroCozinhaUseCase;
+import com.algaworks.deliveryfood.domain.usecase.CadastroCozinhaUseCase;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,17 +63,12 @@ public class CozinhaController {
 	}
 
 	@DeleteMapping("/{cozinhaId}")
-	public ResponseEntity<?> remover(@PathVariable Long cozinhaId) {
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long cozinhaId) {
 		try {
 			cadastroCozinha.excluir(cozinhaId);
-			return ResponseEntity.noContent().build();
-
 		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.notFound().build();
-
-		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-					.body(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
 

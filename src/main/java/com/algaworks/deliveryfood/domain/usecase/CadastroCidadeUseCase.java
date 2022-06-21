@@ -1,13 +1,5 @@
-package com.algaworks.deliveryfood.domain.service;
+package com.algaworks.deliveryfood.domain.usecase;
 
-import com.algaworks.deliveryfood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.deliveryfood.domain.model.Cidade;
-import com.algaworks.deliveryfood.domain.model.Estado;
-import com.algaworks.deliveryfood.domain.repository.EstadoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
