@@ -1,6 +1,7 @@
 package com.algaworks.deliveryfood.controller;
 
 import com.algaworks.deliveryfood.domain.exception.CidadeNaoEncontradaException;
+import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.deliveryfood.domain.exception.NegocioException;
 import com.algaworks.deliveryfood.domain.model.Cidade;
@@ -62,6 +63,12 @@ public class CidadeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cidadeAId) {
             cadastroCidadeUseCase.excluir(cidadeAId);
+    }
+
+    @ExceptionHandler(EntidadeNaoEncontradaException.class)
+    public ResponseEntity<?> tratarEstadoNaoEncontradoException(EntidadeNaoEncontradaException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
     }
 
 }

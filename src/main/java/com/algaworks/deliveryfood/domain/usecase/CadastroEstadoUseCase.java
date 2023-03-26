@@ -1,7 +1,6 @@
 package com.algaworks.deliveryfood.domain.usecase;
 
 import com.algaworks.deliveryfood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.deliveryfood.domain.model.Estado;
 import com.algaworks.deliveryfood.domain.repository.EstadoRepository;
@@ -13,10 +12,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CadastroEstadoUseCase {
 
-    private static final String MSG_ESTADO_EM_USO = "Estado de código %d não pode ser removido, pois já está em uso.";
-
-    private static final String MSG_ESTADO_NAO_ENCONTRADO = "Não existe um cadastro de estado com código %d";
-
     @Autowired
     private EstadoRepository estadoRepository;
 
@@ -24,24 +19,23 @@ public class CadastroEstadoUseCase {
         return estadoRepository.save(estado);
     }
 
+    public Estado buscarOuRetornarException(Long estadoId) {
+       return estadoRepository.
+                findById(estadoId)
+                .orElseThrow(() ->
+                        new EstadoNaoEncontradoException(
+                                String.format("Estado de código %d não encontrado.", estadoId)));
+    }
+
     public void excluir(Long estadoId) {
         try {
             estadoRepository.deleteById(estadoId);
-        } catch (EstadoNaoEncontradoException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId));
-
+        } catch (EmptyResultDataAccessException e) {
+            throw new EstadoNaoEncontradoException(estadoId);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
-                    String.format(MSG_ESTADO_EM_USO, estadoId));
+                    String.format("MSG_ESTADO_EM_USO %d", estadoId));
         }
     }
-
-    public Estado buscarOuRetornarException(Long estadoId) {
-        return estadoRepository.findById(estadoId)
-                .orElseThrow(() -> new EstadoNaoEncontradoException(
-                        String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId)));
-    }
-
 
 }

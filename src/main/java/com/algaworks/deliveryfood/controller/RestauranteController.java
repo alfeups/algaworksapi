@@ -1,5 +1,6 @@
 package com.algaworks.deliveryfood.controller;
 
+import com.algaworks.deliveryfood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.NegocioException;
 import com.algaworks.deliveryfood.domain.exception.RestauranteNaoEncontradoException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
@@ -40,53 +42,49 @@ public class RestauranteController {
 
 	@GetMapping("/{restauranteId}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId) {
-		Optional<Restaurante> restaurante = restauranteRepository.findById(restauranteId);
+		Restaurante restaurante =
+				restauranteRepository.findById(restauranteId)
+						.orElseThrow(() ->
+								new RestauranteNaoEncontradoException(restauranteId));
 
-		if (restaurante.isPresent()) {
-			return ResponseEntity.ok(restaurante.get());
+		if (restaurante != null) {
+			return ResponseEntity.ok(restaurante);
 		}
-
 		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+	public Restaurante adicionar(@RequestBody @Validated Restaurante restaurante) {
+		try {
 			return cadastroRestaurante.salvar(restaurante);
+		} catch (CozinhaNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/{restauranteId}")
-	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId,
-									   @RequestBody Restaurante restaurante) {
+	public Restaurante atualizar(@PathVariable Long restauranteId,
+								 @RequestBody Restaurante restaurante) {
 		try {
-			Restaurante restauranteAtual = restauranteRepository
-					.findById(restauranteId).orElse(null);
+			Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-			if (restauranteAtual != null) {
-				BeanUtils.copyProperties(restaurante, restauranteAtual,
-						"id", "formaPagamento", "endereco", "dataCadastro", "produtos");
+			BeanUtils.copyProperties(restaurante, restauranteAtual,
+					"id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 
-				restauranteAtual = cadastroRestaurante.salvar(restauranteAtual);
-				return ResponseEntity.ok(restauranteAtual);
-			}
-
-			return ResponseEntity.notFound().build();
-
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.badRequest()
-					.body(e.getMessage());
+			return cadastroRestaurante.salvar(restauranteAtual);
+		} catch (CozinhaNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
 		}
 	}
 
 	@PatchMapping("/{restauranteId}")
-	public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId,
-											  @RequestBody Map<String, Object> campos) {
-		Restaurante restauranteAtual = restauranteRepository
-				.findById(restauranteId).orElse(null);
-
-		if (restauranteAtual == null) {
-			return ResponseEntity.notFound().build();
-		}
+	public Restaurante atualizarParcial(@PathVariable Long restauranteId,
+												   @RequestBody Map<String, Object> campos) {
+		var restauranteAtual = restauranteRepository
+				.findById(restauranteId)
+				.orElseThrow(() ->
+						new RestauranteNaoEncontradoException(restauranteId));
 
 		merge(campos, restauranteAtual);
 
@@ -99,6 +97,7 @@ public class RestauranteController {
 
 		dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
 			Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
+			assert field != null;
 			field.setAccessible(true);
 
 			Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
@@ -107,6 +106,12 @@ public class RestauranteController {
 
 			ReflectionUtils.setField(field, restauranteDestino, novoValor);
 		});
+	}
+
+	@ExceptionHandler(EntidadeNaoEncontradaException.class)
+	public ResponseEntity<?> tratarEstadoNaoEncontradoException(EntidadeNaoEncontradaException e){
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(e.getMessage());
 	}
 
 }
