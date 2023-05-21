@@ -32,40 +32,24 @@ public class EstadoController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{estadoId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Estado> buscarEstadoPorId(@PathVariable Long estadoId) {
-        Estado estado = estadoRepository.findById(estadoId)
-                .orElseThrow(() ->
-                        new EstadoNaoEncontradoException(estadoId));
+        var estado = cadastroEstadoUseCase.buscarOuRetornarException(estadoId);
 
-        if (estado != null) {
-            return ResponseEntity.ok(estado);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(estado);
     }
 
     @PutMapping("/{estadoId}")
-    public ResponseEntity<?> atualizar(
-            @PathVariable Long estadoId,
-            @RequestBody Estado estado) {
-        try{
-        Estado estadoAtual = estadoRepository.findById(estadoId)
-                .orElseThrow(() ->
-                        new EstadoNaoEncontradoException(estadoId));
+    public ResponseEntity<?> atualizar(@PathVariable Long estadoId,
+                                       @RequestBody Estado estado) {
+        var estadoAtual = cadastroEstadoUseCase.buscarOuRetornarException(estadoId);
+        BeanUtils.copyProperties(estado, estadoAtual, "id");
 
-        if (estadoAtual != null) {
-            BeanUtils.copyProperties(estado, estadoAtual, "id");
-            estadoAtual = cadastroEstadoUseCase.salvar(estadoAtual);
-            return ResponseEntity.ok(estadoAtual);
-        }
-        return ResponseEntity.notFound().build();
-    } catch (EntidadeNaoEncontradaException e){
-            return ResponseEntity.badRequest()
-                    .body(e.getMessage());
-        }
+        return ResponseEntity.ok(estadoAtual);
     }
 
-    @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> tratarEstadoNaoEncontradoException(EntidadeNaoEncontradaException e){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
+    @DeleteMapping("/{estadoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long estadoId) {
+        cadastroEstadoUseCase.excluir(estadoId);
     }
+
 }
