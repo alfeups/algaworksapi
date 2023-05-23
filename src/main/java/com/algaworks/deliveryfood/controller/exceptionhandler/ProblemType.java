@@ -4,7 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum ProblemType {
-    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada.");
+
+    NAO_FOI_POSSIVEL_LER_BODY("/nao-foi-possivel-ler-body", "Não foi possível ler body da requisição."),
+    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada."),
+    ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso."),
+    NEGOCIO_EXPCETION("/negocio-exception", "Violação de regra de degócio.");
 
     private String title;
     private String uri;
