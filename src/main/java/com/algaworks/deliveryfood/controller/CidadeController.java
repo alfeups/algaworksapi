@@ -1,6 +1,6 @@
 package com.algaworks.deliveryfood.controller;
 
-import com.algaworks.deliveryfood.controller.exceptionhandler.Problema;
+import com.algaworks.deliveryfood.controller.exceptionhandler.Problem;
 import com.algaworks.deliveryfood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.EstadoNaoEncontradoException;
@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -68,22 +67,5 @@ public class CidadeController {
             cadastroCidadeUseCase.excluir(cidadeAId);
     }
 
-    @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> tratarEstadoNaoEncontradoException(EntidadeNaoEncontradaException e) {
-
-        Problema problema = Problema.builder()
-                .dataHora(LocalDateTime.now())
-                .mensagem(e.getMessage())
-                .build();
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(problema);
-    }
-
-    @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<?> tratarNegocioException(NegocioException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
-    }
 
 }

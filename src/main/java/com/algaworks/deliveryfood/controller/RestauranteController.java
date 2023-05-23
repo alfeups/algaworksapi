@@ -108,10 +108,4 @@ public class RestauranteController {
 		});
 	}
 
-	@ExceptionHandler(EntidadeNaoEncontradaException.class)
-	public ResponseEntity<?> tratarEstadoNaoEncontradoException(EntidadeNaoEncontradaException e){
-		return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(e.getMessage());
-	}
-
 }
