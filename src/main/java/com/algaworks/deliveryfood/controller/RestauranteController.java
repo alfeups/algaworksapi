@@ -1,7 +1,6 @@
 package com.algaworks.deliveryfood.controller;
 
 import com.algaworks.deliveryfood.domain.exception.CozinhaNaoEncontradaException;
-import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.NegocioException;
 import com.algaworks.deliveryfood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.deliveryfood.domain.model.Restaurante;
@@ -24,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/restaurantes")
