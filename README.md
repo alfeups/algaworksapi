@@ -10,7 +10,7 @@
 - [x] Super poderes do Spring Data JPA
 - [x] Explorando mais do JPA e Hibernate
 - [x] Pool de conexões e Flyway
-- [ ] Tratamento e modelagem de erros da API
+- [x] Tratamento e modelagem de erros da API
 - [ ] Validações com Bean Validation
 - [ ] Testes de integração
 - [ ] Boas práticas e técnicas para APIs
