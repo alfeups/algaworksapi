@@ -1,5 +1,6 @@
 package com.algaworks.deliveryfood.controller;
 
+import com.algaworks.deliveryfood.Groups;
 import com.algaworks.deliveryfood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.deliveryfood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.model.Cozinha;
@@ -9,9 +10,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +46,7 @@ public class CozinhaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+	public Cozinha adicionar(@RequestBody @Validated Cozinha cozinha) {
 		return cadastroCozinha.salvar(cozinha);
 	}
 
