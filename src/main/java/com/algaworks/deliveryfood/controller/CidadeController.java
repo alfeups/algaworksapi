@@ -54,12 +54,12 @@ public class CidadeController {
 
     @PutMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
+    public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody @Valid Cidade cidade) {
         var cidadeAtual = cidadeRepository.findById(cidadeId)
                 .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
 
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-        return cidadeAtual = cadastroCidadeUseCase.salvar(cidadeAtual);
+        return cadastroCidadeUseCase.salvar(cidadeAtual);
     }
 
     @DeleteMapping("/{cidadeId}")
