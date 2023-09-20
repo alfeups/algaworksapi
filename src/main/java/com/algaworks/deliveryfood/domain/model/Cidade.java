@@ -1,6 +1,6 @@
 package com.algaworks.deliveryfood.domain.model;
 
-import com.algaworks.deliveryfood.Groups;
+import com.algaworks.deliveryfood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
