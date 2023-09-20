@@ -35,8 +35,9 @@ public class Restaurante {
 
 
 	//@DecimalMin("1")
-	@PositiveOrZero
-	@Column(name = "taxa_frete", nullable = false)
+	@NotNull
+	@PositiveOrZero(message = "{TaxaFrete.invalida}") // do bean validation, nao do spring. Por isso deve ser tratado no 'ValidationMessages.properties' e não no 'messages.properties' PS: Não manter 2 arquivos para tratar
+	@Column(name = "taxa_frete", nullable = false)    // Resource bundle do spring sobrescreve se houver config, como o PositiveOrZero
 	private BigDecimal taxaFrete;
 
 	//@JsonIgnore
