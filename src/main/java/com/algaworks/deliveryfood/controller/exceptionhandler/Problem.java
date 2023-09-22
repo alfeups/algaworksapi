@@ -28,7 +28,7 @@ public class Problem {
     @Builder
     public static class Object {
         private String name;
-        private String userMesssage;
+        private String userMessage;
     }
 
 }

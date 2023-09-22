@@ -1,5 +1,6 @@
 package com.algaworks.deliveryfood.controller;
 
+import com.algaworks.deliveryfood.core.validation.ValidacaoException;
 import com.algaworks.deliveryfood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.deliveryfood.domain.exception.NegocioException;
 import com.algaworks.deliveryfood.domain.exception.RestauranteNaoEncontradoException;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +36,9 @@ public class RestauranteController {
 
 	@Autowired
 	private CadastroRestauranteUseCase cadastroRestaurante;
+
+	@Autowired
+	private SmartValidator smartValidator;
 
 	@GetMapping
 	public List<Restaurante> listar() {
@@ -91,8 +97,18 @@ public class RestauranteController {
 						new RestauranteNaoEncontradoException(restauranteId));
 
 		merge(campos, restauranteAtual, request);
+		validate(restauranteAtual, "restaurante");
 
 		return atualizar(restauranteId, restauranteAtual);
+	}
+
+	private void validate(Restaurante restaurante, String objectName) {
+		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, objectName);
+		smartValidator.validate(restaurante, bindingResult);
+
+		if (bindingResult.hasErrors()){
+			throw new ValidacaoException(bindingResult);
+		}
 	}
 
 	private void merge(Map<String, Object> dadosOrigem,
