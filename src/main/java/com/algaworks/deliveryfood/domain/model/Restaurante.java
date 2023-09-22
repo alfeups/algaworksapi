@@ -1,6 +1,7 @@
 package com.algaworks.deliveryfood.domain.model;
 
 import com.algaworks.deliveryfood.core.validation.Groups;
+import com.algaworks.deliveryfood.core.validation.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,6 +38,7 @@ public class Restaurante {
 	//@DecimalMin("1")
 	@NotNull
 	@PositiveOrZero//(message = "{TaxaFrete.invalida}") // do bean validation, nao do spring. Por isso deve ser tratado no 'ValidationMessages.properties' e não no 'messages.properties' PS: Não manter 2 arquivos para tratar
+	@TaxaFrete
 	@Column(name = "taxa_frete", nullable = false)    // Resource bundle do spring sobrescreve se houver config, como o PositiveOrZero
 	private BigDecimal taxaFrete;
 
